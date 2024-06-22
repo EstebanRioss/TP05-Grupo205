@@ -1,4 +1,4 @@
-package ar.edu.unju.fi.Collections;
+package ar.edu.unju.fi.collections;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,8 +6,9 @@ import java.util.List;
 
 import ar.edu.unju.fi.model.Alumno;
 
+
 public class ListadoAlumnos {
-public static List<Alumno> Alumnos = new ArrayList<Alumno>();
+	public static List<Alumno> Alumnos = new ArrayList<Alumno>();
 	
 	public static List<Alumno> listarAlumnos(){
 		return Alumnos;
@@ -46,4 +47,5 @@ public static List<Alumno> Alumnos = new ArrayList<Alumno>();
 	        }
 	    }
 	}
+	
 }
