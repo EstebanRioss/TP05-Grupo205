@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unju.fi.collections.ListadoAlumnos;
 import ar.edu.unju.fi.model.Alumno;
 import ar.edu.unju.fi.service.AlumnoService;
 
@@ -17,13 +16,11 @@ public class AlumnoController {
 	
 	
 	@Autowired
-	Alumno nuevoAlumno = new Alumno();
-	
-	@Autowired
 	AlumnoService alumnoService;
 	
 	@GetMapping("/formularioAlumno")
 	public ModelAndView getFormAlumno() {
+		Alumno nuevoAlumno = new Alumno();
 		ModelAndView modelView = new ModelAndView("alumno/formAlumno");
 		modelView.addObject("nuevoAlumno",nuevoAlumno);
 		
@@ -40,7 +37,9 @@ public class AlumnoController {
 	}
 	@GetMapping("/borrarAlumno/{LU}")
 	public ModelAndView borrarAlumno(@PathVariable(name="LU") String LU){
-		ListadoAlumnos.eliminarAlumno(LU);
+		//ListadoAlumnos.eliminarAlumno(LU);
+		alumnoService.borrarAlumno(LU);
+		
 		ModelAndView modelView = new ModelAndView("/Alumno/listaDeAlumnos");
 		modelView.addObject("listadoAlumnos",alumnoService.mostrarAlumno());
 		
@@ -49,9 +48,8 @@ public class AlumnoController {
 	
 	@GetMapping("/modificarAlumno/{LU}")
 	public ModelAndView mostrarFormularioModificarAlumno(@PathVariable(name="LU") String LU){
-		nuevoAlumno = ListadoAlumnos.buscarAlumnoPorCodigo(LU);
-		ModelAndView modelView = new ModelAndView("/Alumno/modificacionAlumno");
-		modelView.addObject("Alumno", nuevoAlumno);
+		ModelAndView modelView = new ModelAndView("Alumno/modificacionAlumno");
+		modelView.addObject("Alumno", alumnoService.buscarAlumno(LU));
 
 		return modelView;
 	}
@@ -59,7 +57,7 @@ public class AlumnoController {
 	@PostMapping("/guardarModificacionAlumno")
 	public ModelAndView guardarModificacionAlumno(@ModelAttribute ("Alumno") Alumno Alumno) {
 		
-		ListadoAlumnos.modificarAlumno(Alumno);
+		alumnoService.modificarAlumno(Alumno);
 		ModelAndView modelView = new ModelAndView("/Alumno/listaDeAlumnos");
 		modelView.addObject("listadoAlumnos",alumnoService.mostrarAlumno());
 		
