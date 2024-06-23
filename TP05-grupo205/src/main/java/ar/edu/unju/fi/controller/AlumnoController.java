@@ -8,26 +8,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unju.fi.model.Alumno;
+import ar.edu.unju.fi.DTO.AlumnoDTO;
 import ar.edu.unju.fi.service.AlumnoService;
 
 @Controller
 public class AlumnoController {
 	
+	@Autowired
+	AlumnoDTO nuevoAlumnoDTO;
 	
 	@Autowired
 	AlumnoService alumnoService;
 	
 	@GetMapping("/formularioAlumno")
 	public ModelAndView getFormAlumno() {
-		Alumno nuevoAlumno = new Alumno();
 		ModelAndView modelView = new ModelAndView("alumno/formAlumno");
-		modelView.addObject("nuevoAlumno",nuevoAlumno);
+		modelView.addObject("nuevoAlumno",nuevoAlumnoDTO);
 		
 		return modelView;
 	}
 	@PostMapping("/guardarAlumno")
-	public ModelAndView saveAlumno(@ModelAttribute ("nuevoAlumno") Alumno Alumno) {
+	public ModelAndView saveAlumno(@ModelAttribute ("nuevoAlumno") AlumnoDTO Alumno) {
 		
 		alumnoService.guardarAlumno(Alumno);
 		ModelAndView modelView = new ModelAndView("Alumno/listaDeAlumnos");
@@ -55,7 +56,7 @@ public class AlumnoController {
 	}
 	
 	@PostMapping("/guardarModificacionAlumno")
-	public ModelAndView guardarModificacionAlumno(@ModelAttribute ("Alumno") Alumno Alumno) {
+	public ModelAndView guardarModificacionAlumno(@ModelAttribute ("Alumno") AlumnoDTO Alumno) {
 		
 		alumnoService.modificarAlumno(Alumno);
 		ModelAndView modelView = new ModelAndView("/Alumno/listaDeAlumnos");

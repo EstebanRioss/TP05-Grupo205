@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ar.edu.unju.fi.DTO.AlumnoDTO;
+import ar.edu.unju.fi.map.AlumnoMapDTO;
 import ar.edu.unju.fi.model.Alumno;
 import ar.edu.unju.fi.repository.AlumnoRepository;
 import ar.edu.unju.fi.service.AlumnoService;
@@ -11,13 +13,16 @@ import ar.edu.unju.fi.service.AlumnoService;
 @Service
 public class AlumnoServiceimp implements AlumnoService{
 
+	@Autowired
+	AlumnoMapDTO alumnoMapDTO;
 	
 	@Autowired
 	AlumnoRepository alumnoRepository;
+	
 	@Override
-	public void guardarAlumno(Alumno alumno) {
+	public void guardarAlumno(AlumnoDTO alumnoDTO) {
 		// TODO Auto-generated method stub
-		alumnoRepository.save(alumno);
+		alumnoRepository.save(alumnoMapDTO.convertirAlumnoDTOAAlumno(alumnoDTO));
 	}
 
 	@Override
@@ -39,9 +44,10 @@ public class AlumnoServiceimp implements AlumnoService{
 	}
 
 	@Override
-	public void modificarAlumno(Alumno alumnoMod) {
+	public void modificarAlumno(AlumnoDTO alumnoMod) {
 		// TODO Auto-generated method stub
-		Alumno alumnoExistente = this.buscarAlumno(alumnoMod.getLU());
+		alumnoMapDTO.convertirAlumnoDTOAAlumno(alumnoMod);
+		AlumnoDTO alumnoExistente = this.buscarAlumno(alumnoMod.getLU());
 		if(	alumnoExistente != null){
 			alumnoExistente.setNombre(alumnoMod.getNombre());
 	        alumnoExistente.setApellido(alumnoMod.getApellido());
@@ -50,20 +56,20 @@ public class AlumnoServiceimp implements AlumnoService{
 	        alumnoExistente.setEmail(alumnoMod.getEmail());
 	        alumnoExistente.setFechaNacimiento(alumnoMod.getFechaNacimiento());
 	        alumnoExistente.setTelefono(alumnoMod.getTelefono());              
-	        alumnoRepository.save(alumnoExistente);
+	        alumnoRepository.save(alumnoMapDTO.convertirAlumnoDTOAAlumno(alumnoExistente));
 		}
 		
 	}
 
 	@Override
-	public Alumno buscarAlumno(String codigo) {
+	public AlumnoDTO buscarAlumno(String codigo) {
 		// TODO Auto-generated method stub
 		List<Alumno> todosLosAlumnos = alumnoRepository.findAll();
 		for (int i = 0 ; i < todosLosAlumnos.size();i++) {
 			Alumno alumno = todosLosAlumnos.get(i);
 			if(alumno.getLU().equals(codigo)){
 				alumno.setFechaNacimiento(todosLosAlumnos.get(i).getFechaNacimiento());
-				return alumno;
+				return alumnoMapDTO.convertirAlumnoAAlumnoDTO(alumno);
 			}
 		}
 		return null;
