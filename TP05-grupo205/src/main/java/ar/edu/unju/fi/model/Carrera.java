@@ -10,11 +10,9 @@ import lombok.Data;
 @Component
 @Entity
 public class Carrera {
-
 	@Id
 	private String codigo;
 	private String nombre;
 	private Integer duracion;
 	private Boolean estado;
-	
 }
