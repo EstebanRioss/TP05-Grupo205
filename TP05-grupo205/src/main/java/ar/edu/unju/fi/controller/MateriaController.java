@@ -65,7 +65,7 @@ public class MateriaController {
 	@PostMapping("/guardarModificacionMateria")
 	public ModelAndView guardarModificacionMateria(@ModelAttribute ("Materia") MateriaDTO Materia) {
 		
-		materiaService.modificarMateria(nuevaMateria);
+		materiaService.modificarMateria(Materia);
 		ModelAndView modelView = new ModelAndView("materia/listadoDeMaterias");
 		modelView.addObject("listadoMaterias",materiaService.mostrarMaterias());
 		
