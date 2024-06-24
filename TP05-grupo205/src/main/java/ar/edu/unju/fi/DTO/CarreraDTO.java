@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Component
-
 public class CarreraDTO {
 	
 	private String codigo;
